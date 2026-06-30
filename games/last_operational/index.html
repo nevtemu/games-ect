@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Last Operational</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- FULL-WIDTH HEADER -->
+  <div id="hud-header">
+    <div class="hud-header-left">
+      <span class="game-title"><span class="game-title-operational">Beyond</span><img class="game-title-logo" src="./src/game_over/logo.jpg" alt="" /><span class="game-title-last">the App</span></span>
+    </div>
+    <div class="hud-header-center">
+      <span class="hud-cabin-badge" id="hud-cabin-badge"></span>
+    </div>
+    <div class="hud-header-right">
+      <span class="hud-staff-num" id="hud-staff-num"></span>
+      <button class="hidden" id="dev-tools-btn" aria-label="Toggle dev tools" title="Toggle dev tools">🛠</button>
+      <button id="hint-btn" aria-label="Hint" title="Show all possible orders">💡 Hint</button>
+      <button id="menu-btn" aria-label="Menu">Menu</button>
+    </div>
+  </div>
+
+  <!-- BODY ROW -->
+  <div id="app-body">
+
+  <!-- LEFT: Cabin view -->
+  <div id="cabin-panel">
+    <div id="grid-wrapper">
+      <div class="seat-header-row" id="seat-header-row">
+        <div></div>
+        <div class="seat-label">K</div>
+        <div class="seat-label">J</div>
+        <div class="aisle-label"></div>
+        <div class="seat-label">E</div>
+        <div class="seat-label">D</div>
+        <div class="aisle-label"></div>
+        <div class="seat-label">B</div>
+        <div class="seat-label">A</div>
+      </div>
+      <div id="cabin-rows"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: HUD panel -->
+  <div id="hud-panel">
+
+    <!-- Score + Streak -->
+    <div id="hud-stats">
+      <div class="stat-block">
+        <span class="stat-label">Score</span>
+        <div class="score-row">
+          <span class="score-icon">⭐</span>
+          <span class="stat-value" id="score-display">10</span>
+        </div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block fade" id="streak-block">
+        <span class="stat-label">Streak</span>
+        <div class="score-row">
+          <span class="score-icon">🔥</span>
+          <span class="stat-value" id="streak-display">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Combined timer + order progress bar -->
+    <div id="timer-bar-wrap">
+      <div class="tbar-block">
+        <div class="tbar-level" id="cabin-level-label">Level 1 / 5</div>
+      </div>
+      <div class="tbar-block">
+        <div class="tbar-row">
+          <span class="tbar-label order-label-text" id="order-bar-title">Completed orders</span>
+          <span class="tbar-val" id="order-label">1 / 5</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" id="order-bar" style="width:20%"></div>
+        </div>
+      </div>
+      <div class="tbar-block">
+        <div class="tbar-row">
+          <span class="tbar-label">Time left</span>
+          <span class="tbar-val" id="timer">0:00</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" id="timer-bar" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current order -->
+    <div id="order-panel" class="hidden">
+      <div class="bar-label">
+        <span>Current order</span>
+      </div>
+      <div id="order-display">
+        <div class="order-item empty" id="order"><img src="" alt="" /></div><span id="order-count">0/0</span>
+      </div>
+    </div>
+
+    <!-- Info area -->
+    <div id="hud-content">
+      <div class="section-heading">PIL totals:</div>
+      <p id="pax-summary" class="pax-info">No customers generated yet.</p>
+    </div>
+
+    <!-- Dev tools -->
+    <div id="dev-panel" class="hidden">
+      <div class="dev-label">🛠 Dev tools</div>
+      <div class="dev-row">
+        <button class="dev-btn" id="dev-score-plus">+100 score</button>
+        <button class="dev-btn" id="dev-score-minus">−100 score</button>
+        <button class="dev-btn" id="dev-gen">gen customers</button>
+        <button class="dev-btn" id="dev-start">start timer</button>
+        <button class="dev-btn" id="dev-stop">stop timer</button>
+        <button class="dev-btn" id="dev-show-drinks">show drinks</button>
+        <button class="dev-btn" id="dev-show-specials">show specials</button>
+        <button class="dev-btn" id="dev-show-frequent">show frequent</button>
+        <button class="dev-btn" id="dev-show-names">show names</button>
+      </div>
+      <!-- Settings embedded in dev panel -->
+      <div class="dev-settings">
+        <div class="dev-settings-title">Settings</div>
+        <div class="settings-row">
+          <label for="ig-levels-input">Levels: <span class="val" id="ig-levels-val">5</span></label>
+          <input type="range" id="ig-levels-input" min="5" max="30" step="1" value="5" />
+        </div>
+        <div class="settings-row">
+          <label for="ig-time-input">Time per level (min): <span class="val" id="ig-time-val">3</span></label>
+          <input type="range" id="ig-time-input" min="1" max="5" step="1" value="3" />
+        </div>
+        <div class="settings-row">
+          <label for="ig-cust-input">Customers: <span class="val" id="ig-cust-val">8</span></label>
+          <input type="range" id="ig-cust-input" min="6" max="24" step="1" value="8" />
+        </div>
+        <div class="settings-row">
+          <label for="ig-orders-input">Orders per level: <span class="val" id="ig-orders-val">5</span></label>
+          <input type="range" id="ig-orders-input" min="3" max="12" step="1" value="5" />
+        </div>
+        <button class="settings-save" id="ig-settings-save">Apply &amp; restart</button>
+      </div>
+    </div>
+
+  </div><!-- /hud-panel -->
+
+  </div><!-- /app-body -->
+
+  <!-- ══════════════════════════════════════════════════
+       WELCOME OVERLAY  (also used as menu when in-game)
+  ══════════════════════════════════════════════════ -->
+  <div id="welcome-overlay" role="dialog" aria-modal="true" aria-label="Welcome">
+
+    <!-- WELCOME card -->
+    <div class="overlay-card" id="welcome-card">
+      <!-- Close button shown only when used as in-game menu -->
+      <button class="overlay-close-btn hidden" id="welcome-close-btn" aria-label="Close menu">✕</button>
+
+      <h1 class="overlay-title welcome-title">
+        Beyond
+        <img class="welcome-logo-img" src="./src/game_over/logo.jpg" alt="" /><span class="game-title-last">the App</span>
+      </h1>
+      <p class="overlay-desc">
+        You have all orders prepared, however, OneDevice stopped working and you do not know who they belong to.
+      </p>
+
+      <!-- Top row: two secondary actions -->
+      <div class="welcome-btn-row">
+        <button class="overlay-btn-secondary" id="back-to-hub-btn">Back to Hub</button>
+        <button class="overlay-btn-secondary" id="how-to-play-btn">How to play</button>
+      </div>
+
+      <!-- Primary action -->
+      <button class="overlay-btn" id="welcome-next">✈ Start game</button>
+    </div>
+
+    <!-- STAFF NUMBER card -->
+    <div class="overlay-card hidden" id="staff-card">
+      <button class="overlay-close-btn" id="staff-close-btn" aria-label="Back">✕</button>
+      <h2 class="overlay-title" style="font-family:'Cinzel','Georgia',serif;font-size:clamp(22px,4vw,28px);margin-bottom:4px">Staff Number</h2>
+      <p class="overlay-desc" style="margin-bottom:4px">Your score will appear on the leaderboard</p>
+      <div class="overlay-field">
+        <label for="staff-num-input">6-digit staff number</label>
+        <input type="text" id="staff-num-input" inputmode="numeric" pattern="[0-9]*"
+          placeholder="123456" maxlength="6" autocomplete="off" />
+        <div class="staff-error hidden" id="staff-error">Must be exactly 6 digits</div>
+      </div>
+      <button class="overlay-btn staff-confirm-large" id="staff-confirm-btn">Continue →</button>
+    </div>
+
+    <!-- TUTORIAL card -->
+    <div class="overlay-card tutorial-card hidden" id="tutorial-card">
+      <button class="overlay-close-btn" id="tutorial-close-btn" aria-label="Close tutorial">✕</button>
+      <div class="tutorial-step" data-step="1">
+        <img class="tutorial-img" src="./src/tutorial/1.png" alt="Memorize customer preferences" />
+        <h2 class="overlay-title tutorial-title">Memorize preferences</h2>
+        <p class="overlay-desc">
+          Before each level, study the cabin. You'll see drinks, specials, and frequent-flyer status — three rounds, 5 seconds each.
+        </p>
+      </div>
+      <div class="tutorial-step hidden" data-step="2">
+        <img class="tutorial-img" src="./src/tutorial/2.png" alt="Serve the matching customers" />
+        <h2 class="overlay-title tutorial-title">Serve the order</h2>
+        <p class="overlay-desc">
+          When an order appears, tap every customer it belongs to. The counter (e.g. 0/2) shows how many matching customers you still need to find.
+        </p>
+      </div>
+      <div class="tutorial-step hidden" data-step="3">
+        <img class="tutorial-img" src="./src/tutorial/3.png" alt="Scoring and streaks" />
+        <h2 class="overlay-title tutorial-title">Score &amp; streaks</h2>
+        <p class="overlay-desc">
+          A correct guess adds points and builds your streak. A wrong guess deducts points and breaks your streak.
+        </p>
+      </div>
+      <div class="tutorial-dots">
+        <span class="tutorial-dot active" data-dot="1"></span>
+        <span class="tutorial-dot" data-dot="2"></span>
+        <span class="tutorial-dot" data-dot="3"></span>
+      </div>
+      <div class="tutorial-nav">
+        <button class="overlay-btn-secondary" id="tutorial-back">Close</button>
+        <button class="overlay-btn" id="tutorial-next">Next →</button>
+      </div>
+    </div>
+
+  </div><!-- /welcome-overlay -->
+
+  <!-- CABIN SELECT overlay -->
+  <div id="cabin-select-overlay" class="hidden" role="dialog" aria-modal="true" aria-label="Choose cabin">
+    <div class="overlay-card">
+      <button class="overlay-close-btn" id="cabin-select-close-btn" aria-label="Close">✕</button>
+      <div class="overlay-logo">🛫</div>
+      <h2 class="overlay-title">Choose cabin</h2>
+      <p class="overlay-desc">Select a cabin class to begin.</p>
+      <div class="cabin-select-grid">
+        <!-- Cabin cards built dynamically by buildCabinSelectCards() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PREFERENCES preview overlay (shown before each level starts) -->
+  <div id="preferences-overlay" class="hidden" role="dialog" aria-modal="true" aria-label="Preference preview">
+    <div class="pref-card">
+      <div class="pref-title" id="pref-title">Memorize: Drinks</div>
+      <div class="pref-countdown" id="pref-countdown">5</div>
+    </div>
+  </div>
+
+  <!-- HINT overlay: scrollable list of all possible orders -->
+  <div id="hint-overlay" class="hidden" role="dialog" aria-modal="true" aria-label="All possible orders">
+    <div class="overlay-card hint-card">
+      <button class="overlay-close-btn" id="hint-close-btn" aria-label="Close">✕</button>
+      <h2 class="overlay-title">All possible orders</h2>
+      <p class="overlay-desc">Every drink, special meal and frequent-flyer status that can be ordered.</p>
+      <div class="hint-scroll" id="hint-scroll"></div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<script src="script.js"></script>
+</body>
+</html>

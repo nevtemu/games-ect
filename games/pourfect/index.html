@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pourfect</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- WELCOME -->
+<div class="overlay" id="overlayWelcome">
+  <div class="modal" style="position:relative;">
+    <button id="resumeBtn" onclick="resumeGame()" title="Resume game" class="modal-close-btn" style="display:none;">✕</button>
+    <div class="modal-logo">Pourfect</div>
+    <div class="modal-tagline">The art of the pour</div>
+    <div class="modal-title">Welcome aboard</div>
+    <div class="modal-body"><strong>Hold</strong> the glass to pour, <strong>release</strong> to stop.<br>Hit the target level to earn points. Miss and you lose them.</div>
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="window.location.replace('../../hub/index.html')">Back to hub</button>
+      <button class="btn btn-secondary" onclick="showOverlay('overlayTutorial')">How to play</button>
+    </div>
+    <div style="margin-top:14px;">
+      <button class="btn btn-primary" onclick="showStaffEntry()">✈ Start Game</button>
+    </div>
+  </div>
+</div>
+
+<!-- STAFF NUMBER -->
+<div class="overlay hidden" id="overlayStaffNum">
+  <div class="modal" style="max-width:380px;position:relative;">
+    <button class="modal-close-btn" onclick="showOverlay('overlayWelcome')" title="Back">✕</button>
+    <div class="modal-logo" style="font-size:26px;margin-bottom:6px;">Staff Number</div>
+    <div class="modal-tagline" style="margin-bottom:20px;">Your score will appear on the leaderboard</div>
+    <div class="staff-input-wrap">
+      <input
+        id="staffInput"
+        class="staff-input"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        maxlength="6"
+        placeholder="123456"
+        autocomplete="off"
+        oninput="validateStaffInput()"
+        onkeydown="if(event.key==='Enter') confirmStaffNumber()"
+      />
+      <div class="staff-error" id="staffError">Must be exactly 6 digits</div>
+    </div>
+    <div class="btn-group" style="margin-top:20px;">
+      <button class="btn btn-primary" id="staffConfirmBtn" disabled onclick="confirmStaffNumber()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TUTORIAL -->
+<div class="overlay hidden" id="overlayTutorial">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close-btn" onclick="showOverlay('overlayWelcome')" title="Back">✕</button>
+    <div class="modal-logo" style="font-size:26px;margin-bottom:18px;">How to Play</div>
+    <div class="tutorial-steps">
+      <div class="tut-step"><div class="tut-num">1</div><div class="tut-text">Choose your <strong>cabin class</strong> — each has its own drinks and difficulty.</div></div>
+      <div class="tut-step"><div class="tut-num">2</div><div class="tut-text"><strong>Hold</strong> the glass to pour, <strong>release</strong> to stop. Try to match the target level.</div></div>
+      <div class="tut-step"><div class="tut-num">3</div><div class="tut-text"><strong>Perfect</strong> = +40 pts. Within 1% = +15. Each % further reduces points — miss by 7%+ and you lose points (max deduction -25).</div></div>
+      <div class="tut-step"><div class="tut-num">4</div><div class="tut-text">Score 5 drinks per round. Each level pours <strong>faster</strong> — keep up!</div></div>
+      <div class="tut-step"><div class="tut-num">5</div><div class="tut-text">After Level 5, a <strong>Bonus Round</strong> awaits: 1 drink at ±1% tolerance. Hit it → <strong>score doubled</strong>. Miss → lose everything.</div></div>
+      <div class="tut-step"><div class="tut-num">6</div><div class="tut-text">Hit <strong>0 points</strong> and it's game over. Keep your score above zero!</div></div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="showStaffEntry()">✈ Start Game</button>
+    </div>
+  </div>
+</div>
+
+<!-- CABIN SELECT -->
+<div class="overlay hidden" id="overlayCabin">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close-btn" onclick="showOverlay('overlayWelcome')" title="Back">✕</button>
+    <div class="modal-logo" style="font-size:26px;margin-bottom:4px;">Choose Cabin</div>
+    <div class="modal-tagline" style="margin-bottom:24px;">Tap a cabin to start</div>
+    <div class="cabin-grid" id="cabinGrid"></div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="overlay hidden" id="overlayResults">
+  <div class="modal results-content">
+    <div class="modal-logo" style="font-size:26px;margin-bottom:6px;">Level Complete</div>
+    <div class="round-badge" id="resultsRoundBadge">Level 1</div>
+    <div id="resultsDrinks" class="results-drinks"></div>
+    <div class="results-total" id="resultsTotal"></div>
+    <div class="modal-body" id="resultsMsg" style="margin-bottom:4px;"></div>
+    <div class="speed-tier-badge" id="resultsSpeedBadge"></div>
+    <div style="margin-top:20px;">
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="showOverlay('overlayWelcome')">Menu</button>
+        <button class="btn btn-primary" id="nextLevelBtn" onclick="newLevel()">Next Level →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME OVER -->
+<div class="overlay hidden" id="overlayGameOver">
+  <div class="modal gameover-modal">
+    <div class="modal-logo" style="color:#E87878;">Game Over</div>
+    <div class="modal-tagline" style="margin-bottom:16px;">Your score reached zero</div>
+    <div class="gameover-score"><img width='100%' src='./src/game_over/thirsty_child.gif' alt='Game over'></div>
+    <div class="modal-body" style="margin-bottom:24px;">Better luck next time — the passengers are thirsty!</div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="showCabinSelect()">Play Again</button>
+      <button class="btn btn-ghost" onclick="showOverlay('overlayWelcome')">Menu</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="game" class="hidden">
+
+  <header class="g-header">
+    <div class="g-logo">Pourfect</div>
+    <div class="g-cabin-tag">
+      <div class="g-cabin-badge" id="gCabinBadge"></div>
+      <div class="g-cabin-name" id="gCabinName"></div>
+    </div>
+    <div class="g-header-btns">
+      <span class="header-staff-badge" id="header-staff-num"></span>
+      <button class="btn-icon hidden" id="settingsBtn" title="Settings" onclick="toggleSettings()">⚙</button>
+      <button class="btn btn-ghost" style="padding:6px 14px;font-size:11px;" onclick="showOverlay('overlayWelcome')">Menu</button>
+    </div>
+  </header>
+
+  <aside class="g-left">
+    <div class="drink-name" id="gDrinkName">–</div>
+    <div class="drink-cabin" id="gDrinkCabin">–</div>
+    <div class="hint-text" id="gHint">Hold the glass to pour</div>
+
+    <div class="plays-row">
+      <span class="plays-label">Level</span>
+      <span style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold);margin-left:6px;margin-right:10px;padding-bottom:8px;" id="gLevelNum">1</span>
+    </div>
+
+    <div class="plays-row">
+      <span class="plays-label">Round</span>
+      <div class="plays-track" id="playsTrack"></div>
+    </div>
+  </aside>
+
+  <main class="g-center">
+    <div class="glass-wrap" id="glassWrap"></div>
+    <div class="pour-label" id="gPourLabel">Hold glass to pour</div>
+  </main>
+
+  <aside class="g-right">
+    <div class="score-block">
+      <div class="score-label">Score</div>
+      <div class="score-val" id="gScore">50</div>
+      <div class="score-change" id="gScoreChange"></div>
+    </div>
+
+    <div class="praise-box hidden" id="gPraise"></div>
+
+    <div class="target-dial" id="targetDial">
+      <div class="target-ring">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#2C2214" stroke-width="8"/>
+          <circle id="dialRange" cx="50" cy="50" r="42" fill="none" stroke="rgba(29,92,58,0.5)" stroke-width="8" stroke-dasharray="0 264" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+          <circle id="dialTarget" cx="50" cy="50" r="42" fill="none" stroke="#C9A84C" stroke-width="3" stroke-dasharray="0 264" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+          <circle id="dialFill" cx="50" cy="50" r="42" fill="none" stroke="#E8C97A" stroke-width="5" stroke-dasharray="0 264" stroke-linecap="round" stroke-opacity="0.7" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="target-ring-label">
+          <div class="trl-pct" id="dialPct">0%</div>
+          <div class="trl-sub">Level</div>
+        </div>
+      </div>
+      <div class="target-label">Fill Level</div>
+    </div>
+
+    <div class="speed-control" id="speedControl">
+      <div class="speed-label">
+        <span>Pour Speed</span>
+        <span id="speedVal">Normal</span>
+      </div>
+      <input type="range" id="speedSlider" min="1" max="5" value="3" step="1"/>
+    </div>
+
+    <div class="skip-btn-wrap" id="skipBtnWrap">
+      <button class="btn btn-ghost" style="width:100%;font-size:12px;padding:8px;" onclick="skipDrink()">Skip drink →</button>
+    </div>
+  </aside>
+
+  <footer class="g-footer">
+    <button class="btn btn-primary" style="padding:9px 40px;display:none;" id="gActionBtn" onclick="handleAction()">Next</button>
+  </footer>
+
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cocktail Codex</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     WELCOME OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="overlay" id="overlayWelcome">
+  <div class="modal">
+    <button id="resumeBtn" class="modal-close-btn" style="display:none" onclick="resumeGame()" title="Resume">✕</button>
+    <div class="modal-eyebrow">The Art of the Mix</div>
+    <div class="modal-logo">Cocktail<br><span class="logo-accent">Codex</span></div>
+    <div class="modal-tagline">14 classic cocktails. Every measure counts.</div>
+    <div class="modal-body">
+      Select the right <strong>glass</strong>, add each <strong>ingredient</strong> with the correct measure, then finish with the right <strong>garnish</strong>. Score points for every right call.
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="window.location.replace('../../hub/index.html')">Back to Hub</button>
+      <button class="btn btn-secondary" onclick="showOverlay('overlayTutorial')">How to Play</button>
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn btn-primary" onclick="showStaffEntry()">✈ Start Game</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     STAFF NUMBER OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="overlay hidden" id="overlayStaffNum">
+  <div class="modal" style="max-width:380px">
+    <button class="modal-close-btn" onclick="showOverlay('overlayWelcome')" title="Back">✕</button>
+    <div class="modal-logo" style="font-size:clamp(28px,5vw,36px);margin-bottom:6px">Staff Number</div>
+    <div class="modal-tagline" style="margin-bottom:20px">Your score will appear on the leaderboard</div>
+    <div class="staff-input-wrap">
+      <input id="staffInput" class="staff-input" type="text" inputmode="numeric" pattern="[0-9]*"
+        maxlength="6" placeholder="123456" autocomplete="off"
+        oninput="validateStaffInput()"
+        onkeydown="if(event.key==='Enter') confirmStaffNumber()" />
+      <div class="staff-error" id="staffError">Must be exactly 6 digits</div>
+    </div>
+    <div class="btn-group" style="margin-top:20px">
+      <button class="btn btn-primary" id="staffConfirmBtn" onclick="confirmStaffNumber()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     TUTORIAL OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="overlay hidden" id="overlayTutorial">
+  <div class="modal" style="max-width:520px">
+    <button class="modal-close-btn" onclick="showOverlay('overlayWelcome')" title="Back">✕</button>
+    <div class="modal-logo" style="font-size:clamp(28px,5vw,36px);margin-bottom:18px">How to Play</div>
+    <div class="tutorial-steps">
+      <div class="tut-step"><div class="tut-num">1</div><div class="tut-text">Choose whether to <strong>use a shaker or not</strong> — each cocktail has a correct method.</div></div>
+      <div class="tut-step"><div class="tut-num">2</div><div class="tut-text"><strong>Drag the correct glass</strong> to the drop zone — the glass shape appears when you get it right.</div></div>
+      <div class="tut-step"><div class="tut-num">3</div><div class="tut-text"><strong>Drag each ingredient</strong> to the glass. A measure picker appears — select the right amount for full points. Wrong measure = 1 pt only.</div></div>
+      <div class="tut-step"><div class="tut-num">4</div><div class="tut-text"><strong>Drag the garnish</strong> to finish the cocktail.</div></div>
+      <div class="tut-step"><div class="tut-num">5</div><div class="tut-text">Complete all <strong>14 cocktails</strong> to finish. Your score is saved to the hub leaderboard.</div></div>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="showStaffEntry()">✈ Start Game</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     GAME OVER OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="overlay hidden" id="overlayGameOver">
+  <div class="modal" style="max-width:420px;text-align:center">
+    <div class="modal-logo" style="color:#E05A5A;font-size:clamp(32px,6vw,48px)">Game Over</div>
+    <div class="modal-tagline" style="margin-bottom:16px">The bar is closed</div>
+    <div style="font-size:48px;margin:12px 0"><img width='100%' src='./src/game_over/over1.gif' alt='Game over'></div>
+    <div class="modal-body" style="margin-bottom:6px">
+      You finished <strong id="go-cocktails">0</strong> cocktails.
+    </div>
+    <div class="btn-group" style="margin-top:20px">
+      <button class="btn btn-secondary" onclick="showOverlay('overlayWelcome')">Menu</button>
+      <button class="btn btn-primary" onclick="restartGame()">Play Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     GAME COMPLETE OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="overlay hidden" id="overlayComplete">
+  <div class="modal" style="max-width:460px;text-align:center">
+    <div class="modal-eyebrow">All 14 Cocktails Complete</div>
+    <div class="modal-logo" style="font-size:clamp(28px,5vw,42px);margin-bottom:10px">Masterclass!</div>
+    <div style="font-size:52px;margin:10px 0"><img width='100%' src='./src/game_over/win.gif' alt='Game over'></div>
+    <div class="complete-score-wrap">
+      <div class="complete-stat">
+        <div class="complete-stat-val" id="comp-score">0</div>
+        <div class="complete-stat-label">Total Score</div>
+      </div>
+    </div>
+    <div class="modal-body" style="margin:16px 0 6px">Your score has been saved to the leaderboard. <br>Well shaken!</div>
+    <div class="btn-group" style="margin-top:20px">
+      <button class="btn btn-secondary" onclick="window.location.replace('../../hub/index.html')">Back to Hub</button>
+      <button class="btn btn-primary" onclick="restartGame()">Play Again</button>
+
+    </div>
+  </div>
+</div>
+
+<!-- measure picker is now inline below the glass stage -->
+
+<!-- ══════════════════════════════════════════════════
+     MAIN GAME
+══════════════════════════════════════════════════ -->
+<div id="game" class="hidden">
+
+  <!-- Header: logo + dev tools + menu only -->
+  <header class="g-header">
+    <div class="g-logo">Cocktail<span class="g-logo-accent">Codex</span></div>
+    <div class="g-header-btns">
+      <span class="header-staff-badge" id="header-staff-num"></span>
+      <button class="btn-icon hidden" id="devToolsBtn" title="Dev Tools" onclick="toggleDevTools()">⚙</button>
+      <button class="btn btn-ghost" onclick="showOverlay('overlayWelcome')">Menu</button>
+    </div>
+  </header>
+
+  <main class="game-layout">
+
+    <!-- LEFT: sequential steps + score card + dev tools -->
+    <aside class="palette" id="palette">
+
+
+
+      <!-- Step 1: Method -->
+      <div class="palette-section" id="step-shaker">
+        <h3 class="palette-title"><span class="step-num">1</span> Method</h3>
+        <div class="palette-grid palette-grid-4">
+          <button class="palette-item shaker-btn-item" id="shakerYes" onclick="selectShaker(true)"></button>
+          <button class="palette-item shaker-btn-item" id="shakerNo"  onclick="selectShaker(false)"></button>
+        </div>
+      </div>
+
+      <!-- Step 2: Glass -->
+      <div class="palette-section step-hidden" id="step-glass">
+        <h3 class="palette-title"><span class="step-num">2</span> Glass</h3>
+        <div class="palette-grid palette-grid-4" id="glasses-grid"></div>
+      </div>
+
+      <!-- Step 3: Ingredients -->
+      <div class="palette-section step-hidden" id="step-ingredients">
+        <h3 class="palette-title"><span class="step-num">3</span> Ingredients</h3>
+        <div class="palette-grid palette-grid-4" id="ingredients-grid"></div>
+      </div>
+
+      <!-- Step 4: Garnish -->
+      <div class="palette-section step-hidden" id="step-garnish">
+        <h3 class="palette-title"><span class="step-num">4</span> Garnish</h3>
+        <div class="palette-grid palette-grid-4" id="garnishes-grid"></div>
+      </div>
+
+
+
+    </aside>
+
+    <!-- CENTER: drop hint + drop zone -->
+    <section class="glass-stage">
+      <div class="drop-hint-bar" id="drop-hint-bar">Drop ingredient here</div>
+      <div class="glass-drop-zone" id="glass-drop-zone">
+        <div id="glass-svg-wrap"></div>
+        <div class="dropped-items" id="dropped-items"></div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+    </section>
+
+    <!-- RIGHT: task card -->
+    <aside class="task-panel">
+      <div class="task-card">
+        <div class="task-label">Your Mission</div>
+          <div class="cocktail-timer">
+          <div class="timer-bar-track"><div class="timer-bar-fill" id="timer-bar-fill"></div></div>
+          <span class="timer-label" id="timer-label">60s</span>
+        </div>
+        <h2 class="task-name" id="task-name">—</h2>
+
+        <div class="task-step-status" id="task-step-status"></div>
+        <button class="btn btn-next hidden" id="btn-next" onclick="loadNextCocktail()">Next Cocktail →</button>
+      </div>
+
+
+
+                  <!-- Score card (vertical) -->
+      <div class="score-card">
+        <div class="score-stat">
+          <div class="score-label">This Cocktail</div>
+          <div class="score-val" id="hdr-cocktail-score">0</div>
+        </div>
+        <div class="score-divider"></div>
+        <div class="score-stat">
+          <div class="score-label">Total Score</div>
+          <div class="score-val" id="hdr-total-score">0</div>
+        </div>
+        <div class="score-divider"></div>
+        <div class="score-stat">
+          <div class="score-label">Cocktails Made</div>
+          <div class="score-val" id="hdr-cocktails-made">0</div>
+        </div>
+      </div>
+
+      <!-- Dev tools (below palette sections) -->
+      <div class="dev-tools-panel hidden" id="devPanel">
+        <div class="dev-tools-title">💡 Required</div>
+        <div class="required-list" id="required-list"></div>
+        <button class="btn btn-reset" id="btn-reset" style="margin-top:10px">↺ Start Over</button>
+        <button class="btn btn-skip" id="btn-skip" style="margin-top:6px">⏭ Skip Cocktail</button>
+      </div>
+    </aside>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="game.js"></script>
+</body>
+</html>

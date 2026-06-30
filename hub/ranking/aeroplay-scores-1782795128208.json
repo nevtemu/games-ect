@@ -1,0 +1,78 @@
+{
+  "scores": [
+    {
+      "id": "pourfect-395797-1782555618621",
+      "nickname": "395797",
+      "game": "pourfect",
+      "score": 151,
+      "date": "2026-06-27T10:20:18.621Z",
+      "cabinId": 3
+    },
+    {
+      "id": "pourfect-395797-1782555660418",
+      "nickname": "395797",
+      "game": "pourfect",
+      "score": 233,
+      "date": "2026-06-27T10:21:00.418Z",
+      "cabinId": 3
+    },
+    {
+      "id": "pourfect-395797-1782555710816",
+      "nickname": "395797",
+      "game": "pourfect",
+      "score": 324,
+      "date": "2026-06-27T10:21:50.816Z",
+      "cabinId": 3
+    },
+    {
+      "id": "pourfect-395797-1782555745982",
+      "nickname": "395797",
+      "game": "pourfect",
+      "score": 472,
+      "date": "2026-06-27T10:22:25.982Z",
+      "cabinId": 3
+    },
+    {
+      "id": "pourfect-395797-1782555787480",
+      "nickname": "395797",
+      "game": "pourfect",
+      "score": 646,
+      "date": "2026-06-27T10:23:07.480Z",
+      "cabinId": 3
+    },
+    {
+      "id": "pourfect-111111-1782556846979",
+      "nickname": "111111",
+      "game": "pourfect",
+      "score": 0,
+      "date": "2026-06-27T10:40:46.979Z",
+      "cabinId": 3
+    }
+  ],
+  "likes": [
+    {
+      "id": "cocktail-codex:111111",
+      "game": "cocktail-codex",
+      "staffNumber": "111111",
+      "date": "2026-06-30T04:50:56.938Z"
+    },
+    {
+      "id": "pourfect:395797",
+      "game": "pourfect",
+      "staffNumber": "395797",
+      "date": "2026-06-30T04:51:21.577Z"
+    },
+    {
+      "id": "cocktail-codex:395797",
+      "game": "cocktail-codex",
+      "staffNumber": "395797",
+      "date": "2026-06-30T04:51:26.476Z"
+    },
+    {
+      "id": "last-operational:395797",
+      "game": "last-operational",
+      "staffNumber": "395797",
+      "date": "2026-06-30T04:51:31.155Z"
+    }
+  ]
+}

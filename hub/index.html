@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>AeroPlay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- Settings button -->
+<button id="settings-btn" aria-label="Settings">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+</button>
+
+<main id="main-hub">
+  <div class="hero">
+    <h1>AEROPLAY</h1>
+    <div class="hero-badge">Terminal activated. Select your assignment.</div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card" data-game="last-operational" style="--clr:#9333ea;--clr-rgb:147,51,234">
+      <div class="card-img">
+        <img src="./images/last-operational.png" alt="Last Operational" />
+        <div class="card-img-overlay"></div>
+        <button class="like-btn" data-like="last-operational" aria-label="Like this game">
+          <svg class="like-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="like-count" id="like-count-last-operational">0</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-title">Beyond the App</div>
+          <div class="card-tagline">Every second counts at 35,000 ft.</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-play" data-action="play" data-game="last-operational">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+            Play
+          </button>
+          <button class="btn btn-ranks" data-action="ranks" data-game="last-operational">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+            Ranks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-game="cocktail-codex" style="--clr:#06b6d4;--clr-rgb:6,182,212">
+      <div class="card-img">
+        <img src="./images/cocktail-codex.png" alt="Cocktail Codex" />
+        <div class="card-img-overlay"></div>
+        <button class="like-btn" data-like="cocktail-codex" aria-label="Like this game">
+          <svg class="like-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="like-count" id="like-count-cocktail-codex">0</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-title">Cocktail Codex</div>
+          <div class="card-tagline">Know your spirits.</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-play" data-action="play" data-game="cocktail-codex">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+            Play
+          </button>
+          <button class="btn btn-ranks" data-action="ranks" data-game="cocktail-codex">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+            Ranks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-game="pourfect" style="--clr:#ec4899;--clr-rgb:236,72,153">
+      <div class="card-img">
+        <img src="./images/pourfect.png" alt="Pourfect" />
+        <div class="card-img-overlay"></div>
+        <button class="like-btn" data-like="pourfect" aria-label="Like this game">
+          <svg class="like-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="like-count" id="like-count-pourfect">0</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-title">Pourfect</div>
+          <div class="card-tagline">Not a drop more, not a drop less.</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-play" data-action="play" data-game="pourfect">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+            Play
+          </button>
+          <button class="btn btn-ranks" data-action="ranks" data-game="pourfect">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+            Ranks
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Settings drawer -->
+<div id="drawer-backdrop"></div>
+<div id="drawer">
+  <div class="drawer-header">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      System Config
+    </h2>
+    <button id="drawer-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+
+    <div class="drawer-section">
+      <div class="drawer-section-label">Export</div>
+      <button class="drawer-btn" id="export-btn">
+        <span>Offload Rankings &amp; Likes</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-section" id="purge-section" style="display:none">
+      <div class="drawer-section-label">Purge Protocols</div>
+      <div class="game-row">
+        <div class="game-row-info">
+          <span class="game-row-name">Last Operational</span>
+          <span class="game-row-count" id="count-last-operational">0 records</span>
+        </div>
+        <button class="clear-btn" data-clear="last-operational">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Clear
+        </button>
+      </div>
+      <div class="game-row">
+        <div class="game-row-info">
+          <span class="game-row-name">Cocktail Codex</span>
+          <span class="game-row-count" id="count-cocktail-codex">0 records</span>
+        </div>
+        <button class="clear-btn" data-clear="cocktail-codex">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Clear
+        </button>
+      </div>
+      <div class="game-row">
+        <div class="game-row-info">
+          <span class="game-row-name">Pourfect</span>
+          <span class="game-row-count" id="count-pourfect">0 records</span>
+        </div>
+        <button class="clear-btn" data-clear="pourfect">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Clear
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Leaderboard full-screen overlay -->
+<div id="lb-overlay">
+  <div class="lb-scanline"></div>
+
+  <!-- Header -->
+  <div class="lb-top">
+    <div class="lb-top-left">
+      <div class="lb-game-badge" id="lb-game-badge"></div>
+      <div>
+        <div class="lb-top-eyebrow">LEADERBOARD</div>
+        <h2 class="lb-game-title" id="lb-game-title">Game</h2>
+      </div>
+    </div>
+    <button class="lb-close-btn" id="lb-close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- Three cabin columns -->
+  <div class="lb-columns" id="lb-columns">
+
+    <div class="lb-col" data-cabin="2">
+      <div class="lb-col-header" style="--cabin-clr:#4F299E">
+        <div class="lb-col-left">
+          <div class="lb-col-class">W</div>
+          <div>
+            <div class="lb-col-name">Premium Economy</div>
+            <div class="lb-col-stats" id="lb-stats-2">—</div>
+          </div>
+        </div>
+        <div class="lb-col-dot" style="background:#4F299E"></div>
+      </div>
+      <div class="lb-col-list" id="lb-list-2"></div>
+    </div>
+
+    <div class="lb-col" data-cabin="3">
+      <div class="lb-col-header" style="--cabin-clr:#305291">
+        <div class="lb-col-left">
+          <div class="lb-col-class">J</div>
+          <div>
+            <div class="lb-col-name">Business</div>
+            <div class="lb-col-stats" id="lb-stats-3">—</div>
+          </div>
+        </div>
+        <div class="lb-col-dot" style="background:#305291"></div>
+      </div>
+      <div class="lb-col-list" id="lb-list-3"></div>
+    </div>
+
+    <div class="lb-col" data-cabin="4">
+      <div class="lb-col-header" style="--cabin-clr:#B14242">
+        <div class="lb-col-left">
+          <div class="lb-col-class">F</div>
+          <div>
+            <div class="lb-col-name">First</div>
+            <div class="lb-col-stats" id="lb-stats-4">—</div>
+          </div>
+        </div>
+        <div class="lb-col-dot" style="background:#B14242"></div>
+      </div>
+      <div class="lb-col-list" id="lb-list-4"></div>
+    </div>
+
+  </div>
+
+  <!-- Footer info -->
+  <div class="lb-footer">
+    <span class="lb-footer-note">Top 50 per cabin · Scores ≥ 50 pts</span>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<!-- Like / staff number modal -->
+<div id="like-modal-backdrop">
+  <div id="like-modal">
+    <div class="like-modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <p id="like-modal-msg">Thank you for your kind feedback. Please provide your staff number to record your preference. Thank you!</p>
+    <input type="text" id="like-modal-input" inputmode="numeric" pattern="\d{6}" maxlength="6" placeholder="6-digit staff number" autocomplete="off" />
+    <p id="like-modal-error">That staff number has already been recorded for this game.</p>
+    <div class="like-modal-actions">
+      <button id="like-modal-cancel" type="button">Cancel</button>
+      <button id="like-modal-submit" type="button">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
