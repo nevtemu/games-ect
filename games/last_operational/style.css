@@ -179,10 +179,10 @@ body,
 /* Face overlay — absolute, sits on top of seat image */
 .seat-face {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   top: 5px;
-  left: 14px;
+  left: 18px;
   right: 4px;
   bottom: 0;
   display: flex;
@@ -1604,7 +1604,7 @@ body:not(.overlay-open) #hud-panel {
   line-height: 1.2;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12);
   text-align: center;
-  max-width: 90%;
+  /* max-width: 90%; */
 }
 
 /* ============================================================
